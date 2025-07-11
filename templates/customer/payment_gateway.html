@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Gateway</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: white;
+        color: #ecf0f1;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .form-container {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .form-control {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #ecf0f1;
+      }
+      .form-control::placeholder {
+        color: #bdc3c7;
+      }
+      .btn-secondary {
+        background-color: #2980b9;
+        border: none;
+      }
+      .btn-secondary:hover {
+        background-color: #3498db;
+      }
+      h1 {
+        color: #ecf0f1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="form-container">
+        <h1>Complete Your Payment</h1>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="utr_number">UTR Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="utr_number"
+              name="utr_number"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="screenshot">Payment Screenshot</label>
+            <input
+              type="file"
+              class="form-control"
+              id="screenshot"
+              name="screenshot"
+              required
+            />
+          </div>
+          <input
+            type="hidden"
+            name="payment_request_id"
+            value="{{ payment_request.id }}"
+          />
+          <button type="submit" class="btn btn-secondary">
+            Submit Payment
+          </button>
+        </form>
+        <div class="mt-4">
+          <h4>UPI ID: workforcemanagement-idfc@axl</h4>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

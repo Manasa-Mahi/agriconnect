@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worker Home</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      background-color: #ffffff; /* White background */
+      color: #000000; /* Black text */
+    }
+    .navbar {
+      background-color: #ff0000 !important; /* Red navbar */
+    }
+    .nav-link {
+        color: black !important;
+      }
+    .nav-link:hover {
+      color: #dddddd !important; /* Light gray on hover */
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .form-container {
+      background-color: #ffffff; /* White background */
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .table {
+      color: #000000; /* Black text for table */
+    }
+    h2 {
+      color: #000000; /* Black color for Assigned Task's heading */
+      font-weight: bold;
+    }
+    .btn-primary {
+      background-color: #2980b9;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #3498db;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+  </style>
+</head>
+<body>
+  
+  {% include 'worker/workernavbar.html' %}
+
+  <section id="contact" class="contact" style="display:contents;">
+    <div class="container" data-aos="fade-up">
+      <div class="form-container">
+        <div class="section-title">
+          <h2>Assigned Task's</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Customer Username</th>
+                    <th>Full Address</th>
+                    <th>Requested Service</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Route</th>
+                    <th>Status</th>
+                    <th>Time Off Request</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for req in customer_request %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ req.customer.username }}</td>
+                    <td>{{ req.request.fulladdress }}</td>
+                    <td>{{ req.title }}</td>
+                    <td>{{ req.start }}</td>
+                    <td>{{ req.end }}</td>
+                    <td>
+                      <a href="{{ req.request.location }}" target="_blank">
+                        <button type="button" class="btn btn-primary">Directions</button>
+                      </a>
+                    </td>
+                    <td>
+                      {% if req.status == 'complete' or req.status == 'incomplete' %}
+                        {{ req.status }}
+                      {% else %}
+                        <form method="post" action="{% url 'update_assignment_status' %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="req_id" value="{{ req.id }}">
+                          <select name="status" class="form-select">
+                            <option value="complete" {% if req.status == 'complete' %}selected{% endif %}>Complete</option>
+                            <option value="incomplete" {% if req.status == 'incomplete' %}selected{% endif %}>Incomplete</option>
+                          </select>
+                          <button type="submit" class="btn btn-secondary">Update</button>
+                        </form>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {% if req.status != 'complete' and req.status != 'incomplete' %}
+                        {% if req.workertimeoffrequest_set.exists %}
+                          {% for time_off_request in req.workertimeoffrequest_set.all %}
+                          <p>Time-off Requested ({{ time_off_request.time_off_duration }}) - Status: {{ time_off_request.status }}</p>
+                          {% endfor %}
+                        {% else %}
+                          <form method="post" action="{% url 'worker_request_time_off' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="req_id" value="{{ req.id }}">
+                            <select name="time_off_duration" class="form-select">
+                              <option value="5min">5 minutes</option>
+                              <option value="10min">10 minutes</option>
+                              <option value="15min">15 minutes</option>
+                              <option value="20min">20 minutes</option>
+                              <option value="30min">30 minutes</option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary">Request Time Off</button>
+                          </form>
+                        {% endif %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

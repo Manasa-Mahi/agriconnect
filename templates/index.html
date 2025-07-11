@@ -1,0 +1,145 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Labor Service Provisioning for Agricultural Work</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: white;
+        color: #ecf0f1;
+      }
+      .navbar {
+        background-color: #e74c3c !important; /* Set navbar background to red */
+      }
+      .navbar-brand {
+        font-weight: bold;
+        color: #ffffff !important; /* Ensure brand is visible on red */
+      }
+      .navbar-brand:hover {
+        color: #f1c40f !important; /* Optional: Brand hover color */
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .form-container {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .form-control {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #ecf0f1;
+      }
+      .form-control::placeholder {
+        color: #bdc3c7;
+      }
+      .btn-secondary {
+        background-color: #2980b9;
+        border: none;
+      }
+      .btn-secondary:hover {
+        background-color: #3498db;
+      }
+      .nav-link {
+        color: #ffffff !important; /* White links */
+      }
+      .nav-link:hover {
+        color: #f1c40f !important; /* Gold hover effect for links */
+      }
+      h1 {
+        color: #ecf0f1;
+      }
+      .password-container {
+        position: relative;
+      }
+      .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #bdc3c7;
+      }
+      .modal-content {
+        background-color: #e74c3c;
+        color: #fff;
+        border: 2px solid #c0392b;
+      }
+      .modal-header {
+        border-bottom: 2px solid #c0392b;
+      }
+      .modal-title {
+        color: #fff !important;
+      }
+      .modal-body,
+      .modal-footer {
+        background-color: #e74c3c;
+      }
+      .modal-body p {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          Labor Service Provisioning for Agricultural Work
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'customerloginpage' %}"
+                >Customer</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'workerloginpage' %}">Worker</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'adminloginpage' %}">Admin</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section>
+      <img
+        src="{% static 'BGSE.avif' %}"
+        alt=""
+        style="width: 100%; height: auto"
+      />
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worker Home</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: white;
+        color: black;
+      }
+      .navbar-brand {
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .form-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .form-control {
+        background-color: white;
+        border: 1px solid black;
+        color: black;
+      }
+      .form-control::placeholder {
+        color: black;
+      }
+      .btn-secondary {
+        background-color: red;
+        border: none;
+        color: white;
+      }
+      .btn-secondary:hover {
+        background-color: black;
+        color: white;
+      }
+      .nav-link {
+        color: black !important;
+      }
+      .nav-link:hover {
+        color: rgb(244, 237, 237) !important;
+      }
+      h1,
+      h2,
+      label {
+        color: black;
+      }
+      .profile-background {
+        position: relative;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      .profile-container {
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .profile-detail {
+        margin-bottom: 20px;
+      }
+      .profile-detail input,
+      .profile-detail select {
+        background-color: white;
+        border: 1px solid black;
+        color: black;
+      }
+      .profile-detail input::placeholder,
+      .profile-detail select option {
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'worker/workernavbar.html' %}
+
+    <!-- Status Section -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-10">
+          <div class="profile-background">
+            <div class="profile-container">
+              <form method="POST" action="">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="status"><strong>Status:</strong></label>
+                    {% if worker_profile.status == "Available" %}
+                    <a
+                      class="btn btn-success"
+                      href="{% url 'change_status' %}?worker_id={{ worker_profile.worker.id }}&status=Unavailable"
+                      style="background-color: red; color: white"
+                      >Available</a
+                    >
+                    {% else %}
+                    <a
+                      class="btn btn-danger"
+                      href="{% url 'change_status' %}?worker_id={{ worker_profile.worker.id }}&status=Available"
+                      style="background-color: red; color: white"
+                      >Unavailable</a
+                    >
+                    {% endif %}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Details Section -->
+    <div class="container" style="display: contents;">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-10">
+          <div class="profile-background">
+            <div class="profile-container">
+              <h1>Profile Details</h1>
+              <form method="POST" action="{% url 'update_worker_profile' %}">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="firstname"><strong>First Name:</strong></label>
+                    <input
+                      type="text"
+                      id="firstname"
+                      name="firstname"
+                      class="form-control"
+                      value="{{ worker.firstname }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="lastname"><strong>Last Name:</strong></label>
+                    <input
+                      type="text"
+                      id="lastname"
+                      name="lastname"
+                      class="form-control"
+                      value="{{ worker.lastname }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-6 profile-detail">
+                    <label for="address"><strong>Address:</strong></label>
+                    <input
+                      type="text"
+                      id="address"
+                      name="address"
+                      class="form-control"
+                      value="{{ worker.address }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="city"><strong>City:</strong></label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      class="form-control"
+                      value="{{ worker.city }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="state"><strong>State:</strong></label>
+                    <input
+                      type="text"
+                      id="state"
+                      name="state"
+                      class="form-control"
+                      value="{{ worker.state }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="country"><strong>Country:</strong></label>
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      class="form-control"
+                      value="{{ worker.country }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="username"><strong>Username:</strong></label>
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      class="form-control"
+                      value="{{ worker.username }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-6 profile-detail">
+                    <label for="email"><strong>Email:</strong></label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control"
+                      value="{{ worker.email }}"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="number"><strong>Contact:</strong></label>
+                    <input
+                      type="text"
+                      id="number"
+                      name="number"
+                      class="form-control"
+                      value="{{ worker.number }}"
+                    />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">
+                  Update
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Update Password Section -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-10">
+          <div class="profile-background">
+            <div class="profile-container">
+              <h1>Update Password</h1>
+              <form
+                method="POST"
+                action="{% url 'update_worker_profile_password' %}"
+              >
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="old-password"><strong>Old Password:</strong></label>
+                    <input
+                      type="text"
+                      id="old-password"
+                      name="oldpassword"
+                      class="form-control"
+                      placeholder="Enter Old Password"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="new-password"><strong>New Password:</strong></label>
+                    <input
+                      type="text"
+                      id="new-password"
+                      name="newpassword"
+                      class="form-control"
+                      placeholder="Enter New Password"
+                    />
+                  </div>
+                  <div class="col-md-6 col-lg-4 profile-detail">
+                    <label for="confirm-password"><strong>Confirm Password:</strong></label>
+                    <input
+                      type="text"
+                      id="confirm-password"
+                      name="confirm_password"
+                      class="form-control"
+                      placeholder="Enter Confirm Password"
+                    />
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-block">
+                  Update Password
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com

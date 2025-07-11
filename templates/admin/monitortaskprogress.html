@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Home</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: white;
+        color: #ecf0f1;
+      }
+      .navbar-brand {
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .form-container {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .form-control {
+        background-color: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #ecf0f1;
+      }
+      .form-control::placeholder {
+        color: #bdc3c7;
+      }
+      .btn-secondary {
+        background-color: #2980b9;
+        border: none;
+      }
+      .btn-secondary:hover {
+        background-color: #3498db;
+      }
+      .nav-link {
+        color: #ecf0f1 !important;
+      }
+      .nav-link:hover {
+        color: #bdc3c7 !important;
+      }
+      h1 {
+        color: #ecf0f1;
+      }
+      .password-container {
+        position: relative;
+      }
+      .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #bdc3c7;
+      }
+      .modal-content {
+        background-color: #e74c3c;
+        color: #fff;
+        border: 2px solid #c0392b;
+      }
+      .modal-header {
+        border-bottom: 2px solid #c0392b;
+      }
+      .modal-title {
+        color: #fff !important;
+      }
+      .modal-body,
+      .modal-footer {
+        background-color: #e74c3c;
+      }
+      .modal-body p {
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    {% include 'admin/adminnavbar.html' %}
+
+    <section id="contact" class="contact" style="display: contents;">
+      <div class="container" data-aos="fade-up">
+        <div class="form-container">
+          <div class="section-title">
+            <h2 style="color: black;">Task Progress</h2>
+          </div>
+          <form method="GET" action="{% url 'monitortaskprogress' %}">
+            <div class="row mb-4">
+              <div class="col-md-10" >
+                <label for="skills" style="color: black;">Select Skills</label>
+                <select class="form-control" id="skills" name="skills" style="color: black;"  multiple>
+                  <option value="Cleaning" >Cleaning</option>
+                  <option value="Pruning">Pruning</option>
+                  <option value="Babysitting">Babysitting</option>
+                  <option value="Gardening">Gardening</option>
+                  <option value="Plumbing">Plumbing</option>
+                  <option value="Electrical Repairs">Electrical Repairs</option>
+                  <option value="Laundry">Laundry</option>
+                  <option value="Pet Care">Pet Care</option>
+                  <option value="House Painting">House Painting</option>
+                  <option value="Carpentry">Carpentry</option>
+                  <option value="Home Organization">Home Organization</option>
+                  <option value="Window Cleaning">Window Cleaning</option>
+                  <option value="Furniture Assembly">Furniture Assembly</option>
+                  <option value="Snow Removal">Snow Removal</option>
+                  <option value="Pest Control">Pest Control</option>
+                  <option value="Pool Maintenance">Pool Maintenance</option>
+                  <option value="Roof Cleaning">Roof Cleaning</option>
+                  <option value="Flooring Installation">
+                    Flooring Installation
+                  </option>
+                  <option value="Appliance Repair">Appliance Repair</option>
+                  <option value="Locksmith Services">Locksmith Services</option>
+                  <option value="Home Security Installation">
+                    Home Security Installation
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-secondary btn-block">
+                  Filter
+                </button>
+              </div>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Worker</th>
+                      <th>Customer</th>
+                      <th>Request</th>
+                      <th>Start</th>
+                      <th>End</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user in requeststatus %}
+                    <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td>{{ user.worker.username }}</td>
+                      <td>{{ user.customer.username }}</td>
+                      <td>{{ user.request.service }}</td>
+                      <td>{{ user.start }}</td>
+                      <td>{{ user.end }}</td>
+                      <td>{{ user.status }}</td>
+                      <td>
+                        {% if user.status == "complete" and user.id not in payment_requests %}
+                        <a href="{% url 'requestpayment' %}?assignment_id={{ user.id }}" class="btn btn-primary">
+                          Request Payment
+                        </a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                      {% if messages %}
+                      <div class="alert alert-danger" role="alert">
+                        {% for message in messages %} {{ message }} {% endfor %}
+                      </div>
+                      {% endif %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

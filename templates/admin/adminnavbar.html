@@ -1,0 +1,164 @@
+
+
+<style>
+  body {
+    background-color: #fbf8f8;
+    /* black background */
+    color: #000000;
+    /* Black text */
+  }
+
+  .container {
+    margin-top: 50px;
+  }
+
+  .card {
+    background-color: #ffffff;
+    /* black card background */
+    border: 1px solid #000000;
+    /* Black border */
+    color: #000000;
+    /* Black text */
+  }
+
+  .card-header {
+    background-color: #ffffff;
+    /* black card header */
+    border-bottom: 1px solid #ddd;
+    /* Subtle border */
+    font-weight: bold;
+    color: #000000;
+    /* Black text in card header */
+  }
+
+  .card-body {
+    color: #000000;
+    /* Black text for card body */
+  }
+
+  h1 {
+    color: #000000;
+    /* Black heading */
+  }
+
+  .vertical-tabs-container {
+    display: flex;
+    flex-direction: column;
+    /* Align items vertically */
+    width: 200px;
+    /* Set a fixed width for the tabs */
+    background-color: #f5f5f5;
+    /* Optional background color */
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+
+  .tab {
+    display: block;
+    /* Ensure links take full width */
+    padding: 10px 15px;
+    background-color: red;
+    /* Red background for tabs */
+    text-decoration: none;
+    margin-bottom: 5px;
+    /* Spacing between tabs */
+    text-align: center;
+    border-radius: 4px;
+    /* Rounded corners */
+  }
+
+  .tab:hover {
+    background-color: darkred;
+    /* Darker shade on hover */
+  }
+
+  .main-container {
+    display: flex;
+    height: 100vh;
+    /* Full-height layout */
+  }
+
+  .admin-panel {
+    width: 250px;
+    /* Fixed width for the left panel */
+    background-color: red;
+    color: black;
+    padding: 20px;
+    box-sizing: border-box;
+    /* Include padding in width */
+  }
+
+  .admin-panel-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .vertical-tabs-container {
+    display: flex;
+    flex-direction: column;
+    color: #000000;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 10px;
+   color: #000000;
+    text-decoration: none;
+    margin-bottom: 5px;
+    background-color: #040404;
+    text-align: center;
+    border-radius: 4px;
+  }
+
+  .tab:hover {
+    background-color: #ddd;
+  }
+
+  .dashboard-content {
+    flex-grow: 1;
+    /* Occupy remaining space */
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns */
+    gap: 20px;
+  }
+
+  .stat-card {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: black;
+  }
+</style>
+</head>
+
+<body>
+
+
+  <div class="main-container">
+    <div class="admin-panel">
+      <div class="admin-panel-title">Admin Panel</div>
+      <div class="vertical-tabs-container" style="color: #000000;">
+        <a class="nav-link" href="{% url 'adminhome' %}" style="color: black">Home</a>
+        <a class="nav-link" href="{% url 'admincustomerviews' %}" style="color: black">Customer</a>
+        <a class="nav-link" href="{% url 'adminworkerviews' %}" style="color: black">Worker</a>
+        <a class="nav-link" href="{% url 'adminviewrequestedservice' %}" style="color: black">Customer Request's</a>
+        <a class="nav-link" href="{% url 'adminviewacceptedrequests' %}" style="color: black">Accepted Request's</a>
+        <a class="nav-link" href="{% url 'adminviewassignedtasks' %}" style="color: black">Assigned Request's</a>
+        <a class="nav-link" href="{% url 'monitortaskprogress' %}" style="color: black">Task Progress</a>
+        <a class="nav-link" href="{% url 'timeoffrequests' %}" style="color: black">Time-off request's</a>
+        <a class="nav-link" href="{% url 'adminpaymentrequest' %}" style="color: black">Payments</a>
+        <a class="nav-link" href="{% url 'adminviewcustomerfeedback' %}" style="color: black">Customer Feedback</a>
+        <a class="nav-link" href="{% url 'adminpriorityrequest' %}" style="color: black">Priority Request's</a>
+        <a class="nav-link" href="{% url 'admincustomersupport' %}" style="color: black">Customer support</a>
+        <a class="nav-link" href="{% url 'adminworkersupport' %}" style="color: black">Worker support</a>
+        <a class="nav-link" href="{% url 'adminlogout' %}" style="color: black">Logout</a>
+      </div>
+    </div>

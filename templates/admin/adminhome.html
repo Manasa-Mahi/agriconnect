@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Home</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: #fbf8f8; /* White background */
+        color: #000000; /* Black text */
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .card {
+        background-color: #ffffff; /* White card background */
+        border: 1px solid #000000; /* Black border */
+        color: #000000; /* Black text */
+      }
+      .card-header {
+        background-color: #ffffff; /* White card header */
+        border-bottom: 1px solid #ddd; /* Subtle border */
+        font-weight: bold;
+        color: #000000; /* Black text in card header */
+      }
+      .card-body {
+        color: #000000; /* Black text for card body */
+      }
+      h1 {
+        color: #000000; /* Black heading */
+      }
+      .vertical-tabs-container {
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  width: 200px;          /* Set a fixed width for the tabs */
+  background-color: #f5f5f5; /* Optional background color */
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.tab {
+  display: block;           /* Ensure links take full width */
+  padding: 10px 15px;
+  color: #fff;
+  background-color: red;    /* Red background for tabs */
+  text-decoration: none;
+  margin-bottom: 5px;       /* Spacing between tabs */
+  text-align: center;
+  border-radius: 4px;       /* Rounded corners */
+}
+
+.tab:hover {
+  background-color: darkred; /* Darker shade on hover */
+}
+
+.main-container {
+  display: flex;
+  height: 100vh; /* Full-height layout */
+}
+
+.admin-panel {
+  width: 250px; /* Fixed width for the left panel */
+  background-color: red;
+  color: white;
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in width */
+}
+
+.admin-panel-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.vertical-tabs-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab {
+  display: block;
+  padding: 10px;
+  color: blue;
+  text-decoration: none;
+  margin-bottom: 5px;
+  background-color: #f5f5f5;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.tab:hover {
+  background-color: #ddd;
+}
+
+.dashboard-content {
+  flex-grow: 1; /* Occupy remaining space */
+  padding: 20px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 20px;
+}
+
+.stat-card {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+}
+
+
+    </style>
+  </head>
+  <body>
+  
+
+    <div class="main-container">
+      <div class="admin-panel">
+        <div class="admin-panel-title">Admin Panel</div>
+        <div class="vertical-tabs-container">
+          <a class="nav-link" href="{% url 'adminhome' %}">Home</a>
+            <a class="nav-link" href="{% url 'admincustomerviews' %}">Customer</a>
+            <a class="nav-link" href="{% url 'adminworkerviews' %}">Worker</a>
+            <a class="nav-link" href="{% url 'adminviewrequestedservice' %}">Customer Requests</a>
+            <a class="nav-link" href="{% url 'adminviewacceptedrequests' %}">Accepted Requests</a>
+            <a class="nav-link" href="{% url 'adminviewassignedtasks' %}">Assigned Requests</a>
+            <a  class="nav-link" href="{% url 'monitortaskprogress' %}">Task Progress</a>
+            <a class="nav-link" href="{% url 'adminlogout' %}">Logout</a>
+        </div>
+      </div>
+
+
+
+   
+      <div class="dashboard-content">
+        <h1>Admin Dashboard</h1>
+        <div class="stats-grid">
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Registered Workers</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ worker_count }}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Registered Customers</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ customer_count }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Active Workers</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ active_worker_count }}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Inactive Workers</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ inactive_worker_count }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Active Customers</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ active_customer_count }}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Inactive Customers</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ inactive_customer_count }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Workers Available</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ available_workers_count }}</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card mb-3">
+              <div class="card-header">Total Workers Unavailable</div>
+              <div class="card-body">
+                <h5 class="card-title">{{ unavailable_workers_count }}</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

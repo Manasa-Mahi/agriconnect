@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Home</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css">
+  <style>
+    body {
+      background-color: white; 
+      color: #ecf0f1;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+      background-color: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #ecf0f1;
+    }
+    .form-control::placeholder {
+      color: #bdc3c7;
+    }
+    .btn-secondary {
+      background-color: #2980b9;
+      border: none;
+    }
+    .btn-secondary:hover {
+      background-color: #3498db;
+    }
+    .nav-link {
+      color: #ecf0f1 !important;
+    }
+    .nav-link:hover {
+      color: #bdc3c7 !important;
+    }
+    h1 {
+      color: #ecf0f1;
+    }
+    .password-container {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #bdc3c7;
+    }
+    .modal-content {
+        background-color: #e74c3c; 
+        color: #fff; 
+        border: 2px solid #c0392b; 
+      }
+      
+      .modal-header {
+        border-bottom: 2px solid #c0392b; 
+      }
+      
+      .modal-title {
+        color: #fff !important; 
+      }
+      .modal-body, .modal-footer {
+        background-color: #e74c3c; 
+      }
+      
+      .modal-body p {
+        color: #fff; 
+      }
+    .sidebar {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .content-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
+    #calendar {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  
+  {% include 'admin/adminnavbar.html' %}
+
+  <div class="container content-wrapper">
+    <div class="sidebar">
+        <h4>Worker Details</h4>
+        <p><strong>Username:</strong> {{ worker.username }}</p>
+        <p><strong>Contact:</strong> {{ worker.number }}</p>
+        <p><strong>Email:</strong> {{ worker.email }}</p>
+        <p><strong>Age:</strong> {{ worker.workerprofile.age }}</p>
+        <p><strong>Gender:</strong> {{ worker.workerprofile.gender }}</p>
+        <p><strong>Profession:</strong> {{ worker.workerprofile.profession }}</p>
+        <p><strong>Skills:</strong> {{ worker.workerprofile.skills }}</p>
+        <p><strong>Experience:</strong> {{ worker.workerprofile.experience }}</p>
+    </div>
+    <div id="calendar"></div>
+  </div>
+
+  <section id="contact" class="contact" style="display: contents;">
+    <div class="container" data-aos="fade-up">
+      <div class="form-container">
+        <div class="section-title">
+            <h2 style="color: black;">Requested Service's</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th>Fullname</th>
+                                <th>Fulladdress</th>
+                                <th>Service</th>
+                                <th>Start_date</th>
+                                <th>End_date</th>
+                                <th>Start_time</th>
+                                <th>End_time</th>
+                                <th>Route</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for req in customer_request %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{ req.fullname }}</td>
+                                    <td>{{ req.fulladdress }}</td>
+                                    <td>{{ req.service }}</td>
+                                    <td>{{ req.start_date }}</td>
+                                    <td>{{ req.end_date }}</td>
+                                    <td>{{ req.start_time }}</td>
+                                    <td>{{ req.end_time }}</td>
+                                    <td>
+                                      <a href="{{ req.location }}" target="_blank">
+                                          <button type="button" class="btn btn-primary">Directions</button>
+                                      </a>
+                                  </td>
+                                  <td>
+                                    <form method="post" action="{% url 'assign_worker' %}">
+                                      {% csrf_token %}
+                                      <input type="hidden" name="worker_id" value="{{ worker.id }}">
+                                      <input type="hidden" name="request_id" value="{{ req.id }}">
+                                      <button type="submit" class="btn btn-secondary">Assign</button>
+                                  </form>
+                                </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <script>
+    $(document).ready(function() {
+        var events = {{ events|safe }};
+        
+        $('#calendar').fullCalendar({
+            events: events,
+            dayClick: function(date, jsEvent, view) {
+                var selectedDate = date.format();
+                var dayEvents = $('#calendar').fullCalendar('clientEvents', function(event) {
+                    return moment(event.start).isSame(selectedDate, 'day');
+                });
+
+                var scheduleDetails = '';
+                if (dayEvents.length) {
+                    dayEvents.forEach(function(event) {
+                        scheduleDetails += '<p><strong>' + event.title + ':</strong> ' + event.start.format('HH:mm') + ' - ' + (event.end ? event.end.format('HH:mm') : '') + '</p>';
+                    });
+                } else {
+                    scheduleDetails = '<p>No schedules for this day.</p>';
+                }
+
+                $('#schedule-details').html(scheduleDetails);
+            }
+        });
+    });
+</script>
+
+
+
+</body>
+</html>
